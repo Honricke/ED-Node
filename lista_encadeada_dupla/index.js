@@ -64,6 +64,9 @@ var Lista = /** @class */ (function () {
         this.fim == null ? {} : this.fim.prox = novo;
         novo.ant = this.fim;
         this.fim = novo;
+        if (this.tam == 0) {
+            this.ini = novo;
+        }
         this.tam++;
     };
     Lista.prototype.remove = function (pos) {

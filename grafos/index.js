@@ -24,16 +24,28 @@ var Grafo = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Grafo.prototype.setLista = function (matriz) {
+        var _this = this;
+        matriz.forEach(function (array, i) {
+            array.forEach(function (num, j) {
+                if (num != 0) {
+                    _this.lista[i].appendFim(j);
+                }
+            });
+        });
+    };
     Grafo.prototype.print = function () {
         console.log(this.matriz);
         console.log(this.lista);
     };
     return Grafo;
 }());
-function start() {
+function iniciar_grafo() {
     var matriz = JSON.parse(fs.readFileSync('./pcv4.json', 'utf8'));
     var graph = new Grafo(matriz.length);
     graph.matriz = matriz;
+    graph.setLista(matriz);
     return graph;
 }
-start();
+var graph = iniciar_grafo();
+console.log(graph);

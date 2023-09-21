@@ -30,18 +30,30 @@ class Grafo{
         this.matriz = matriz;
     }
 
+    setLista(matriz: Matriz): void{
+        matriz.forEach( (array,i) => {
+            array.forEach( (num,j) => {
+                if (num != 0){
+                    this.lista[i].appendFim(j)
+                }
+            })
+        })
+    }
+
     print(): void {
         console.log(this.matriz)
         console.log(this.lista)
     }
 }
 
-function start(){
+function iniciar_grafo(): Grafo{
     var matriz: Matriz = JSON.parse(fs.readFileSync('./pcv4.json','utf8'));
     var graph: Grafo = new Grafo(matriz.length) 
     graph.matriz = matriz;
+    graph.setLista(matriz) 
 
     return graph;
 }
 
-start()
+var graph: Grafo = iniciar_grafo()
+console.log(graph)
