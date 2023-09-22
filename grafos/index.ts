@@ -52,6 +52,7 @@ function iniciar_grafo(): Grafo{
 
     graph.matriz = matriz;
     graph.setLista(matriz) 
+    graph.setLista(matriz) 
 
     return graph;
 }
