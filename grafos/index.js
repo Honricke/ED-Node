@@ -75,7 +75,7 @@ var Grafo = /** @class */ (function () {
     //Recursiva
     Grafo.prototype.busca_profundidade = function (source) {
         function visitV(grafo, ver, cor) {
-            console.log(ver);
+            console.log("V\u00E9rtice: ".concat(ver));
             cor[ver] = "Amarelo";
             var aux = grafo.lista[ver].ini;
             for (var i = 0; i < grafo.lista[ver].tam; i++) {
@@ -109,11 +109,11 @@ var Grafo = /** @class */ (function () {
         pilha.inserir(source);
         while (!pilha.vazia()) {
             var ver = pilha.remover();
-            console.log(ver);
-            cor[ver] = "Amarelo";
+            console.log("V\u00E9rtice: ".concat(ver));
             var aux = this.lista[ver].ini;
             for (var i = 0; i < this.lista[ver].tam; i++) {
                 if (aux && cor[aux.value] == "Branco") {
+                    cor[aux.value] = "Amarelo";
                     pilha.inserir(aux.value);
                 }
                 //@ts-ignore

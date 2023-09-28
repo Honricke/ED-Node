@@ -82,7 +82,7 @@ class Grafo {
     //Recursiva
     busca_profundidade(source: number) {
         function visitV(grafo: Grafo,ver: number, cor: Cores[]){
-            console.log(ver)
+            console.log(`Vértice: ${ver}`)
             cor[ver] = "Amarelo"
 
             var aux: PontNo = grafo.lista[ver].ini
@@ -127,13 +127,13 @@ class Grafo {
         while(!pilha.vazia()){
             const ver = pilha.remover() 
 
-            console.log(ver)
-            cor[ver] = "Amarelo"
-
+            console.log(`Vértice: ${ver}`)
+            
             var aux: PontNo = this.lista[ver].ini
             for(let i = 0; i < this.lista[ver].tam; i++){
                 
                 if(aux && cor[aux.value] == "Branco"){
+                    cor[aux.value] = "Amarelo"
                     pilha.inserir(aux.value)
                 }       
                 //@ts-ignore
