@@ -33,6 +33,7 @@ class Pilha{
         if(!this.vazia()){
             let index: number = this.tamAtual-1
             let dado: content = this.dados[index]
+            this.dados.pop()
             this.tamAtual-=1
             return dado
         }else return false

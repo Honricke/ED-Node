@@ -1,6 +1,6 @@
+// @ts-nocheck
 import { Lista, PontNo } from "../lista_encadeada_dupla"
 import { Pilha } from "../pilha_vetor"
-import * as fs from 'fs';
 
 type Matriz = Array<Array<number>>
 type Cores = "Branco" | "Amarelo" | "Vermelho"
@@ -64,15 +64,13 @@ class Grafo {
         while (!pilha.vazia()){
             const ver = pilha.remover() 
 
-            if (ver){
-                this.matriz[ver].forEach((dist_atual,i) => {
-                    if(dist[i] == -1 && dist_atual != 0){
-                        dist[i] = dist[ver] + 1
-                        from[i] = ver
-                        pilha.inserir(i)
-                    }
-                }) 
-            }
+            this.matriz[ver].forEach((dist_atual,i) => {
+                if(dist[i] == -1 && dist_atual != 0){
+                    dist[i] = dist[ver] + 1
+                    from[i] = ver
+                    pilha.inserir(i)
+                }
+            }) 
         }
 
         return {
@@ -89,11 +87,9 @@ class Grafo {
 
             var aux: PontNo = grafo.lista[ver].ini
             for(let i = 0; i < grafo.lista[ver].tam; i++){
-                if(aux)
                 if(cor[aux.value] == "Branco"){
                     visitV(grafo,aux.value,cor)
                 }       
-                //@ts-ignore
                 aux = aux.prox
             }
 
@@ -110,19 +106,42 @@ class Grafo {
 
         var aux: PontNo = this.lista[source].ini  
         for(let i = 0; i < this.lista[source].tam; i++){
-            if(aux != null)
-            // console.log(aux.value)
             if (cor[aux?.value] == "Branco") {
                 visitV(this, aux.value, cor);
             }
-            //@ts-ignore
             aux = aux.prox
         }
     }
 
     //Pilha
     busca_profundidade2(source: number){
-        
+        const cor: Cores[] = []
+        const pilha: Pilha = new Pilha(this.num_vertices)
+
+        for(let i = 0; i < this.num_vertices; i++){
+            cor[i] = "Branco"
+        }        
+
+        pilha.inserir(source)
+
+        while(!pilha.vazia()){
+            const ver = pilha.remover() 
+
+            console.log(ver)
+            cor[ver] = "Amarelo"
+
+            var aux: PontNo = this.lista[ver].ini
+            for(let i = 0; i < this.lista[ver].tam; i++){
+                
+                if(aux && cor[aux.value] == "Branco"){
+                    pilha.inserir(aux.value)
+                }       
+                //@ts-ignore
+                aux = aux.prox
+            }
+
+            cor[ver] = "Vermelho"
+        }
     }
 
     print(): void {
@@ -131,17 +150,4 @@ class Grafo {
     }
 }
 
-function iniciar_grafo(): Grafo {
-    let matriz: Matriz = JSON.parse(fs.readFileSync('./pcv.json', 'utf8'));
-    let graph: Grafo = new Grafo(matriz.length)
-
-    graph.matriz = matriz;
-    graph.setLista(matriz)
-
-    return graph;
-}
-
-var graph: Grafo = iniciar_grafo()
-console.log(graph)
-// console.log(graph.busca_distancia(3))
-graph.busca_profundidade(0)
+export { Grafo }
