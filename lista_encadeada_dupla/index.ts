@@ -1,9 +1,9 @@
-type pontNo = No | null;
+type PontNo = No | null;
 type content = number;
 
 class No{
-    prox: pontNo;
-    ant: pontNo;
+    prox: PontNo;
+    ant: PontNo;
     value: content;
 
     constructor(value: content){
@@ -14,14 +14,26 @@ class No{
 }
 
 class Lista{
-    ini: pontNo;
-    fim: pontNo;
+    ini: PontNo;
+    fim: PontNo;
     tam: number;
 
     constructor(){
         this.tam = 0;
         this.ini = null;
         this.fim = null
+    }
+
+    percorre_lista(): content[]{
+        const lista_array: content[] = []
+        var aux: PontNo = this.ini
+
+        while(aux != null){
+            lista_array.push(aux.value) 
+            aux = aux.prox
+        }
+
+        return lista_array
     }
 
     append(pos: number, data: content): void{
@@ -44,7 +56,7 @@ class Lista{
                 this.fim = novo;
             }
             else{
-                var aux: pontNo = this.ini;
+                var aux: PontNo = this.ini;
                 for(let i = 0; i < pos-1;i++){
                     if (aux == null) break; 
                     aux = aux.prox;
@@ -105,7 +117,7 @@ class Lista{
                     this.fim.prox = null;
                 }
             }else{
-                var aux: pontNo = this.ini;
+                var aux: PontNo = this.ini;
                 
                 for(let i = 0; i < pos-1; i++){
                     if(aux != null){
@@ -124,7 +136,7 @@ class Lista{
     }
 
     print(): void {
-        var aux: pontNo = this.ini;
+        var aux: PontNo = this.ini;
         for (let i = 0; i < this.tam; i++) {
             if(aux != null){
                 console.log(aux.value)
@@ -135,4 +147,4 @@ class Lista{
 }
 
 export default  "None";
-export { No, Lista, content}
+export { No, Lista, content, PontNo}

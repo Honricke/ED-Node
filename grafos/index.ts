@@ -1,8 +1,9 @@
-import { Lista, content } from "../lista_encadeada_dupla"
+import { Lista, PontNo } from "../lista_encadeada_dupla"
 import { Pilha } from "../pilha_vetor"
 import * as fs from 'fs';
 
 type Matriz = Array<Array<number>>
+type Cores = "Branco" | "Amarelo" | "Vermelho"
 
 class Grafo {
     num_vertices: number;
@@ -80,8 +81,48 @@ class Grafo {
             }
     }
 
+    //Recursiva
     busca_profundidade(source: number) {
+        function visitV(grafo: Grafo,ver: number, cor: Cores[]){
+            console.log(ver)
+            cor[ver] = "Amarelo"
 
+            var aux: PontNo = grafo.lista[ver].ini
+            for(let i = 0; i < grafo.lista[ver].tam; i++){
+                if(aux)
+                if(cor[aux.value] == "Branco"){
+                    visitV(grafo,aux.value,cor)
+                }       
+                //@ts-ignore
+                aux = aux.prox
+            }
+
+            cor[ver] = "Vermelho"
+        }
+
+        const cor: Cores[] = []
+
+        for(let i = 0; i < this.num_vertices; i++){
+            cor[i] = "Branco"
+        }        
+
+        cor[source] = "Amarelo"
+
+        var aux: PontNo = this.lista[source].ini  
+        for(let i = 0; i < this.lista[source].tam; i++){
+            if(aux != null)
+            // console.log(aux.value)
+            if (cor[aux?.value] == "Branco") {
+                visitV(this, aux.value, cor);
+            }
+            //@ts-ignore
+            aux = aux.prox
+        }
+    }
+
+    //Pilha
+    busca_profundidade2(source: number){
+        
     }
 
     print(): void {
@@ -91,7 +132,7 @@ class Grafo {
 }
 
 function iniciar_grafo(): Grafo {
-    let matriz: Matriz = JSON.parse(fs.readFileSync('./pcv4.json', 'utf8'));
+    let matriz: Matriz = JSON.parse(fs.readFileSync('./pcv.json', 'utf8'));
     let graph: Grafo = new Grafo(matriz.length)
 
     graph.matriz = matriz;
@@ -102,5 +143,5 @@ function iniciar_grafo(): Grafo {
 
 var graph: Grafo = iniciar_grafo()
 console.log(graph)
-console.log(graph.busca_distancia(3))
-// console.log(graph.busca_profundidade(0))
+// console.log(graph.busca_distancia(3))
+graph.busca_profundidade(0)
