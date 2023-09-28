@@ -36,7 +36,7 @@ var Grafo = /** @class */ (function () {
         });
     };
     Grafo.prototype.get_distancia = function (item1, item2) {
-        var distancia = this.busca_distancia(item1);
+        var distancia = this.busca_distancia(item1)["distancia"];
         if (distancia[item2])
             return distancia[item2];
         else
@@ -44,22 +44,22 @@ var Grafo = /** @class */ (function () {
     };
     Grafo.prototype.busca_distancia = function (source) {
         var dist = [];
-        var passou = [];
-        var pilha = new pilha_vetor_1.Pilha(this.lista[0].tam);
+        var from = [];
+        var pilha = new pilha_vetor_1.Pilha(this.num_vertices);
         for (var i = 0; i < this.num_vertices; i++) {
-            passou[i] = false;
+            dist[i] = -1;
+            from[i] = 0;
         }
         dist[source] = 0;
-        passou[source] = true;
         pilha.inserir(source);
         var _loop_1 = function () {
-            var top_1 = pilha.remover();
-            if (typeof (top_1) == 'number') {
-                this_1.matriz[top_1].forEach(function (item, i) {
-                    if (!passou[i] && item != 0 && typeof (top_1) == 'number') {
-                        dist[i] = dist[top_1] + 1;
+            var ver = pilha.remover();
+            if (ver) {
+                this_1.matriz[ver].forEach(function (dist_atual, i) {
+                    if (dist[i] == -1 && dist_atual != 0) {
+                        dist[i] = dist[ver] + 1;
+                        from[i] = ver;
                         pilha.inserir(i);
-                        passou[i] = true;
                     }
                 });
             }
@@ -68,7 +68,10 @@ var Grafo = /** @class */ (function () {
         while (!pilha.vazia()) {
             _loop_1();
         }
-        return dist;
+        return {
+            'distancia': dist,
+            'origem': from
+        };
     };
     Grafo.prototype.busca_profundidade = function (source) {
     };
@@ -87,5 +90,5 @@ function iniciar_grafo() {
 }
 var graph = iniciar_grafo();
 console.log(graph);
-console.log(graph.get_distancia(3, 0));
-console.log(graph.busca_profundidade(0));
+console.log(graph.busca_distancia(3));
+// console.log(graph.busca_profundidade(0))
