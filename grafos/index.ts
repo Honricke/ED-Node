@@ -1,4 +1,6 @@
-import { Lista } from "../lista_encadeada_dupla"
+import { type } from "os";
+import { Lista, content } from "../lista_encadeada_dupla"
+import { Pilha } from "../pilha_vetor"
 import * as fs from 'fs';
 
 type Matriz =  Array<Array<number>>
@@ -40,6 +42,46 @@ class Grafo{
         })
     }
 
+    get_distancia(item1:number, item2:number){
+        var distancia: number[] = this.busca_distancia(item1)
+        if (distancia[item2]) return distancia[item2]
+        else return "Não há caminho entre os dois vértices!"
+    }
+
+    busca_distancia(source: number) {
+        var dist: number[] = []
+        var passou: boolean[] = []
+        var pilha: Pilha = new Pilha(this.lista[0].tam)
+
+        for(let i = 0; i < this.num_vertices; i++){
+            passou[i] = false
+        }
+
+        dist[source] = 0
+        passou[source] = true
+        pilha.inserir(source)
+
+        while (!pilha.vazia()){
+            let top: number | boolean = pilha.remover()
+
+            if (typeof(top) == 'number'){    
+                this.matriz[top].forEach((item,i) => {
+                    if(!passou[i] && item != 0 && typeof(top) == 'number'){
+                        dist[i] = dist[top] + 1
+                        pilha.inserir(i)
+                        passou[i] = true
+                    }
+                });
+            }
+        }   
+
+        return dist
+    }
+
+    busca_profundidade(source: number){
+        
+    }
+
     print(): void {
         console.log(this.matriz)
         console.log(this.lista)
@@ -51,10 +93,12 @@ function iniciar_grafo(): Grafo{
     let graph: Grafo = new Grafo(matriz.length) 
 
     graph.matriz = matriz;
-        graph.setLista(matriz) 
+    graph.setLista(matriz) 
 
     return graph;
 }
 
 var graph: Grafo = iniciar_grafo()
 console.log(graph)
+console.log(graph.get_distancia(3,0))
+console.log(graph.busca_profundidade(0))

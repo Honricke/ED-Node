@@ -23,7 +23,7 @@ class Lista{
         this.ini = null;
         this.fim = null
     }
-    
+
     append(pos: number, data: content): void{
         if(pos > 0 && pos <= this.tam+1){
             var novo: No = new No(data);
@@ -135,4 +135,4 @@ class Lista{
 }
 
 export default  "None";
-export { No, Lista }
+export { No, Lista, content}
