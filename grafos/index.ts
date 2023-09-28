@@ -51,8 +51,7 @@ function iniciar_grafo(): Grafo{
     let graph: Grafo = new Grafo(matriz.length) 
 
     graph.matriz = matriz;
-    graph.setLista(matriz) 
-    graph.setLista(matriz) 
+        graph.setLista(matriz) 
 
     return graph;
 }

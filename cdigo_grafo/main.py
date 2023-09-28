@@ -28,6 +28,6 @@ def load_from(fileName):
 
 gr = load_from("instncias_grafo/pcv4.txt")
 gr.print()
-dist, ant = gr.bfs(3)
+dist, ant = gr.bfs(2)
 print(dist)
 print(ant)
